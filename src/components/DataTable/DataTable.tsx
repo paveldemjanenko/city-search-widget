@@ -33,8 +33,8 @@ const DataTable: React.FC<DataTabletProps> = ({ data }) => {
                             onClick={() => handleRowClick(item)}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
-                            <TableCell>{item.name}</TableCell>
-                            <TableCell align="right">{item.capital}</TableCell>
+                            <TableCell>{item.capital}</TableCell>
+                            <TableCell align="right">{item.name}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

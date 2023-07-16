@@ -3,6 +3,7 @@ import { Container, TextField, Button } from "@mui/material";
 import { getRequest } from "../../services/requests";
 import { DataTable } from "../DataTable";
 import { CountryResponse } from "../../types/country-response";
+import { sortBy } from "lodash";
 
 const SearchForm: React.FC = () => {
     const [capital, setCapital] = useState<string>('');
@@ -28,7 +29,10 @@ const SearchForm: React.FC = () => {
 
     const handleClick = () => {
         getRequest(`https://restcountries.com/v2/capital/${capital}`)
-            .then((res) => setSearchResponse(res))
+            .then((res) => {
+                const sortedRes = sortBy(res, 'capital');
+                setSearchResponse(sortedRes);
+            })
             .catch(() => {
                 setIsError(true);
                 setSearchResponse([]);
