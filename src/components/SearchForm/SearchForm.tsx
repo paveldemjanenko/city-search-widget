@@ -1,13 +1,16 @@
 import { ChangeEvent, useState } from "react";
 import { Container, TextField, Button } from "@mui/material";
-import { getRequest } from "../../services/requests";
+import { useAppSelector, useAppDispatch } from "../../store/hooks";
+import { RootState } from "../../store/store";
 import { DataTable } from "../DataTable";
-import { CountryResponse } from "../../types/country-response";
-import { sortBy } from "lodash";
+import { fetchCountry } from "./countrySlice";
 
 const SearchForm: React.FC = () => {
+    const dispatch = useAppDispatch();
+    const { data = [] } = useAppSelector((state: RootState) => state.country);
+
     const [capital, setCapital] = useState<string>('');
-    const [searchResponse, setSearchResponse] = useState<Array<CountryResponse>>([]);
+
     const [isError, setIsError] = useState(false);
 
     const handleCapitalChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -28,18 +31,9 @@ const SearchForm: React.FC = () => {
     };
 
     const handleClick = () => {
-        getRequest(`https://restcountries.com/v2/capital/${capital}`)
-            .then((res) => {
-                const sortedRes = sortBy(res, 'capital');
-                setSearchResponse(sortedRes);
-            })
-            .catch(() => {
-                setIsError(true);
-                setSearchResponse([]);
-            });
+        dispatch(fetchCountry(capital));
     };
 
-    console.log(searchResponse, 'TEST');
     return (
         <Container>
             <TextField
@@ -59,7 +53,7 @@ const SearchForm: React.FC = () => {
             >
                 Search
             </Button>
-            {searchResponse.length > 0 && <DataTable data={searchResponse} />}
+            {data.length > 0 && <DataTable data={data} />}
         </Container>
     );
 };

@@ -64,7 +64,7 @@ const DataModal: React.FC<DataModalProps> = ({ modalOpen, setModalOpen, selected
                                 )}
                             </TableRow>
                             {selectedItem?.currencies?.slice(1).map((item) => (
-                                <TableRow>
+                                <TableRow key={item.name}>
                                     <TableCell colSpan={2} align="right">{`${item.name} (${item.code}), ${item.symbol}`}</TableCell>
                                 </TableRow>
                             ))}
@@ -75,7 +75,7 @@ const DataModal: React.FC<DataModalProps> = ({ modalOpen, setModalOpen, selected
                                 )}
                             </TableRow>
                             {selectedItem?.timezones?.slice(1).map((item) => (
-                                <TableRow>
+                                <TableRow key={item}>
                                     <TableCell colSpan={2} align="right">{item}</TableCell>
                                 </TableRow>
                             ))}
@@ -86,7 +86,7 @@ const DataModal: React.FC<DataModalProps> = ({ modalOpen, setModalOpen, selected
                                 )}
                             </TableRow>
                             {selectedItem?.languages?.slice(1).map((item) => (
-                                <TableRow>
+                                <TableRow key={item.name}>
                                     <TableCell colSpan={2} align="right">{item.name}</TableCell>
                                 </TableRow>
                             ))}
