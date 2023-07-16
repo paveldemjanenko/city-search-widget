@@ -1,6 +1,7 @@
-import { Dispatch } from 'react';
+import { Dispatch, useContext } from 'react';
 import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Modal, Fade, Avatar } from '@mui/material';
 import { CountryResponse } from '../../types/country-response';
+import { DarkModeContext } from '../../contexts/DarkCodeContext';
 
 interface DataModalProps {
     modalOpen: boolean;
@@ -9,6 +10,8 @@ interface DataModalProps {
 };
 
 const DataModal: React.FC<DataModalProps> = ({ modalOpen, setModalOpen, selectedItem }) => {
+    const mode = useContext(DarkModeContext);
+
     return (
         <Modal
             aria-labelledby="transition-modal-title"
@@ -24,14 +27,14 @@ const DataModal: React.FC<DataModalProps> = ({ modalOpen, setModalOpen, selected
         >
             <Fade in={modalOpen}>
                 <TableContainer
-                    className="modal-container"
                     sx={{
                         position: 'absolute',
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
-                        bgcolor: 'white',
+                        bgcolor: mode === 'light' ? 'white' : 'black',
                         boxShadow: 24,
+                        border: '1px solid white',
                         p: 1,
                     }}
                 >

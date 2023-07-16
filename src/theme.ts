@@ -1,7 +1,10 @@
 import { createTheme } from "@mui/material";
 
-const getTheme = (isMobileScreen: boolean) =>
+const getTheme = (isMobileScreen: boolean, mode: 'light' | 'dark') =>
     createTheme({
+        palette: {
+            mode,
+        },
         components: {
             MuiContainer: {
                 defaultProps: {
@@ -9,8 +12,8 @@ const getTheme = (isMobileScreen: boolean) =>
                 },
                 styleOverrides: {
                     root: {
-                        display: 'flex',
-                        flexDirection: 'column',
+                        display: "flex",
+                        flexDirection: "column",
                         alignItems: "center",
                         padding: "20px",
                     },
