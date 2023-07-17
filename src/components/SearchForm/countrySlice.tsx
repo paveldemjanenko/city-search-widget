@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { CountryResponse } from '../../types/country-response'
 import { getRequest } from '../../services/requests';
 import { AppDispatch } from '../../store/store';
+import { AxiosError } from 'axios';
 
 interface CountryState {
     data: CountryResponse[] | [];
@@ -43,8 +44,9 @@ export const fetchCountry = (capital: string): AppThunk => async (dispatch): Pro
         dispatch(fetchCountryStart());
         const response = await getRequest(`https://restcountries.com/v2/capital/${capital}`);
         dispatch(fetchCountrySuccess(response));
-    } catch (error) {
-        dispatch(fetchCountryFailure((error as Error).message));
+    } catch (error: any) {
+        const errorMessage = error?.message || 'An unknown error occurred';
+        dispatch(fetchCountryFailure(errorMessage));
     }
 };
 

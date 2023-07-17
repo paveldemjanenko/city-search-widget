@@ -9,7 +9,7 @@ import { CountryResponse } from "../../types/country-response";
 
 const SearchForm: React.FC = () => {
     const dispatch = useAppDispatch();
-    const { data = [] } = useAppSelector((state: RootState) => state.country);
+    const { data = [], error } = useAppSelector((state: RootState) => state.country);
 
     const [capital, setCapital] = useState<string>('');
     const [sortedData, setSortedData] = useState<Array<CountryResponse>>([]);
@@ -50,8 +50,8 @@ const SearchForm: React.FC = () => {
                 variant="outlined"
                 onChange={handleCapitalChange}
                 onBlur={handleBlur}
-                error={isError}
-                helperText={isError ? 'No results found.' : ''}
+                error={isError || !!error}
+                helperText={isError || error ? 'No results found.' : ''}
                 onKeyDown={(e) => handleKeyDown(e.key)}
             />
             <Button
