@@ -1,17 +1,25 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import { Container, TextField, Button } from "@mui/material";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import { RootState } from "../../store/store";
 import { DataTable } from "../DataTable";
 import { fetchCountry } from "./countrySlice";
+import { sortBy } from "lodash";
+import { CountryResponse } from "../../types/country-response";
 
 const SearchForm: React.FC = () => {
     const dispatch = useAppDispatch();
     const { data = [] } = useAppSelector((state: RootState) => state.country);
 
     const [capital, setCapital] = useState<string>('');
+    const [sortedData, setSortedData] = useState<Array<CountryResponse>>([]);
 
     const [isError, setIsError] = useState(false);
+
+    useEffect(() => {
+        const sortData = sortBy(data, 'capital');
+        setSortedData(sortData);
+    }, [data]);
 
     const handleCapitalChange = (e: ChangeEvent<HTMLInputElement>) => {
         setCapital(e.target.value);
@@ -53,7 +61,7 @@ const SearchForm: React.FC = () => {
             >
                 Search
             </Button>
-            {data.length > 0 && <DataTable data={data} />}
+            {sortedData.length > 0 && <DataTable data={sortedData} />}
         </Container>
     );
 };
